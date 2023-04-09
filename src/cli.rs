@@ -1,6 +1,10 @@
 use clap::Parser;
 
-use crate::{search::AcroynmSearcher, phrase::Phrase, words::{try_find_words_file, try_load_words_file}};
+use crate::{
+    phrase::Phrase,
+    search::AcroynmSearcher,
+    words::{try_find_words_file, try_load_words_file},
+};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -39,7 +43,11 @@ impl TryFrom<AcronymSearcherCli> for AcroynmSearcher {
         Ok(AcroynmSearcher {
             start: value.start.map(Phrase::new).transpose()?,
             end: value.end.map(Phrase::new).transpose()?,
-            phrases: value.phrases.into_iter().map(Phrase::new).collect::<Result<Vec<_>, _>>()?,
+            phrases: value
+                .phrases
+                .into_iter()
+                .map(Phrase::new)
+                .collect::<Result<Vec<_>, _>>()?,
             max_wildcards: value.max_wildcards,
             max_unmatched_phrases: value.max_unmatched_phrases,
             words: try_load_words_file(try_find_words_file(value.words_file)?)?,

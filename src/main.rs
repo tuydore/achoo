@@ -4,16 +4,15 @@ use search::AcroynmSearcher;
 
 use crate::search::pretty_print_results;
 
+pub(crate) mod cli;
 pub(crate) mod phrase;
 pub(crate) mod search;
-pub(crate) mod cli;
 pub(crate) mod words;
-
 
 fn main() -> Result<(), anyhow::Error> {
     if std::env::args().len() == 1 {
         println!("Bless you!");
-        return Ok(())
+        return Ok(());
     }
 
     let cli = AcronymSearcherCli::parse();

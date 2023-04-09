@@ -14,24 +14,30 @@ impl Phrase {
 
         for c in phrase.chars() {
             if !(c.is_alphabetic() || c == ' ') {
-                return Err(anyhow::anyhow!("phrase characters can only be a-zA-Z or space: {phrase}"))
+                return Err(anyhow::anyhow!(
+                    "phrase characters can only be a-zA-Z or space: {phrase}"
+                ));
 
             // space is not valid uppercase, so every character at this point is either a-z or A-Z
             // and thus has a lowecase variant
             } else if c.is_uppercase() {
-                search.push(c.to_lowercase().next().expect("must have lowercase variant"));
+                search.push(
+                    c.to_lowercase()
+                        .next()
+                        .expect("must have lowercase variant"),
+                );
             }
         }
 
         if search.is_empty() {
-            return Err(anyhow::anyhow!("phrase must have at least one capital letter: {phrase}"))
+            return Err(anyhow::anyhow!(
+                "phrase must have at least one capital letter: {phrase}"
+            ));
         }
 
-        Ok(Self { 
-            words: phrase.split(' ')
-                .map(|word| word.to_owned())
-                .collect(), 
-            pattern: search.into_iter().collect()
+        Ok(Self {
+            words: phrase.split(' ').map(|word| word.to_owned()).collect(),
+            pattern: search.into_iter().collect(),
         })
     }
 }

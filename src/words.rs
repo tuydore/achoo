@@ -1,6 +1,6 @@
 //! Utilities for finding word collections.
 
-use std::{path::PathBuf, io::BufRead};
+use std::{io::BufRead, path::PathBuf};
 
 use anyhow::Context;
 
@@ -13,12 +13,19 @@ const WORDS_FILE_PATHS: [&str; 2] = ["/usr/share/dict/words", "/usr/dict/words"]
 fn try_find_unix_words_file() -> Result<PathBuf, anyhow::Error> {
     use std::str::FromStr;
 
-    for path in WORDS_FILE_PATHS.into_iter().map(|path| PathBuf::from_str(path).expect("infallible")) {
+    for path in WORDS_FILE_PATHS
+        .into_iter()
+        .map(|path| PathBuf::from_str(path).expect("infallible"))
+    {
         if path.is_file() {
-            return Ok(path)
+            return Ok(path);
         }
     }
-    Err(anyhow::anyhow!("could not find UNIX words file at {} or {}", WORDS_FILE_PATHS[0], WORDS_FILE_PATHS[1]))
+    Err(anyhow::anyhow!(
+        "could not find UNIX words file at {} or {}",
+        WORDS_FILE_PATHS[0],
+        WORDS_FILE_PATHS[1]
+    ))
 }
 
 /// Try and find the default system words file.
@@ -26,7 +33,9 @@ fn try_find_default_words_file() -> Result<PathBuf, anyhow::Error> {
     if cfg!(unix) {
         try_find_unix_words_file()
     } else {
-        Err(anyhow::anyhow!("platform does not have a default words file"))
+        Err(anyhow::anyhow!(
+            "platform does not have a default words file"
+        ))
     }
 }
 
@@ -49,9 +58,10 @@ pub(crate) fn try_load_words_file(words_file: PathBuf) -> Result<Vec<String>, an
     let file = std::fs::File::open(words_file).context("error loading words file")?;
     std::io::BufReader::new(file)
         .lines()
-        .map(|line| line.context("error reading line from words file")
-
-            // TODO: toggle capitalization
-            .map(|s| s.to_lowercase()))
+        .map(|line| {
+            line.context("error reading line from words file")
+                // TODO: toggle capitalization
+                .map(|s| s.to_lowercase())
+        })
         .collect()
 }
