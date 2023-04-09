@@ -47,10 +47,7 @@ impl SearchResult {
     }
 
     pub(crate) fn num_wildcards(&self) -> usize {
-        self.phrases
-            .iter()
-            .filter(|phrase| phrase.is_none())
-            .count()
+        self.phrases.iter().filter(|phrase| phrase.is_none()).count()
     }
 
     /// Returns the phrase with wildcard hints filled in from the matching word.
@@ -218,26 +215,20 @@ fn deduplicate_word_match(word_match: &mut Vec<Option<usize>>) {
 }
 
 /// Attempts to match a sequence of phrases with a word. Assumes the word is not empty and only lowercase a-z.
-fn search_unchecked<'a>(
-    phrases: &'a [Phrase],
-    word: &'a str,
-) -> impl Iterator<Item = SearchResult> + 'a {
-    find_word_matches(phrases, word)
-        .into_iter()
-        .map(|mut word_match| {
-            // remove only duplicate non-wildcards
-            deduplicate_word_match(&mut word_match);
+fn search_unchecked<'a>(phrases: &'a [Phrase], word: &'a str) -> impl Iterator<Item = SearchResult> + 'a {
+    find_word_matches(phrases, word).into_iter().map(|mut word_match| {
+        // remove only duplicate non-wildcards
+        deduplicate_word_match(&mut word_match);
 
-            SearchResult {
-                num_unused_phrases: phrases.len()
-                    - word_match.iter().filter(|m| m.is_some()).count(),
-                phrases: word_match
-                    .into_iter()
-                    .map(|idx| idx.map(|i| phrases[i].clone()))
-                    .collect(),
-                word: word.to_owned(),
-            }
-        })
+        SearchResult {
+            num_unused_phrases: phrases.len() - word_match.iter().filter(|m| m.is_some()).count(),
+            phrases: word_match
+                .into_iter()
+                .map(|idx| idx.map(|i| phrases[i].clone()))
+                .collect(),
+            word: word.to_owned(),
+        }
+    })
 }
 
 /// Pretty-print results to STDOUT.

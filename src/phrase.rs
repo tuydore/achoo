@@ -21,11 +21,7 @@ impl Phrase {
             // space is not valid uppercase, so every character at this point is either a-z or A-Z
             // and thus has a lowecase variant
             } else if c.is_uppercase() {
-                search.push(
-                    c.to_lowercase()
-                        .next()
-                        .expect("must have lowercase variant"),
-                );
+                search.push(c.to_lowercase().next().expect("must have lowercase variant"));
             }
         }
 

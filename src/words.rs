@@ -33,9 +33,7 @@ fn try_find_default_words_file() -> Result<PathBuf, anyhow::Error> {
     if cfg!(unix) {
         try_find_unix_words_file()
     } else {
-        Err(anyhow::anyhow!(
-            "platform does not have a default words file"
-        ))
+        Err(anyhow::anyhow!("platform does not have a default words file"))
     }
 }
 
