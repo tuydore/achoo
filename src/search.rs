@@ -169,10 +169,17 @@ fn find_word_matches(phrases: &[Phrase], word: &str) -> Vec<Vec<Option<usize>>> 
     // start with a single match of all-wildcards
     let mut iter_vec: Vec<Vec<Option<usize>>> = vec![vec![None; word.len()]];
     let mut push_vec: Vec<Vec<Option<usize>>> = Vec::new();
+    
+    // this will contain a copy of each already found word match,
+    // which can then later be filtered by the "unmatched phrases" flag
+    let mut used_vec: Vec<Vec<Option<usize>>> = Vec::new();
 
     for (phrase_idx, phrase) in phrases.iter().enumerate() {
         // iterate over all potential matches
         for word_match in iter_vec.drain(..) {
+            // add this to the list of intermediate steps
+            used_vec.push(word_match.clone());
+
             // find all occurences of the phrase's search substring in the word,
             // where the current potential match is not None at that index
             for word_match_idx in word
@@ -198,7 +205,8 @@ fn find_word_matches(phrases: &[Phrase], word: &str) -> Vec<Vec<Option<usize>>> 
         (iter_vec, push_vec) = (push_vec, iter_vec);
     }
 
-    // at the end, the iter vec should contain all search results
+    // at the end, the iter vec + the incremental "used" vec should contain all search results
+    iter_vec.append(&mut used_vec);
     iter_vec
 }
 
