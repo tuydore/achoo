@@ -1,12 +1,20 @@
-# ACHOO! - Acronym Chooser
+# **ACHOO!** 🤧
 
-Simple acronym chooser, based on phrases (i.e. you can input `"Technical Term"` for matching `tt` in words) and supporting mandatory start/end and wildcards.
+Achoo is an acronym chooser, designed to help find real words that are suitable acronyms for your project's name.
 
-By default, `achoo` tries to pick up the words file on UNIX systems. On Windows, you will have to supply your own.
+Achoo uses *phrases* instead of words: a phrase is a sequence of ASCII alphabetic words (optionally separated by spaces), where some of the letters are capitalized. These letters make up your acronym. For example, `"Company"` will match the letter `c`, but `"COmpany"` will match the sequence `co` and `"Company Name"` will match the sequence `cn` instead of the individual comprising letters.
 
-# Usage
+Achoo also provides additional features, such as:
 
-```sh
+- strict matching of the start and end of the acroynm using `--start` and `--end` flags
+- wildcards
+- printing out the matched sequence of phrases for each acroynm, to help visualize what other words might fit the wildcards
+
+By default, `achoo` tries to pick up the [words file](https://en.wikipedia.org/wiki/Words_(Unix)) on UNIX systems. On Windows, you will have to supply your own.
+
+## Usage
+
+```txt
 ❯ achoo --help
 Acronym Chooser.
 
@@ -32,8 +40,8 @@ Options:
           Print version
 ```
 
-# Examples
-Output is first grouped and sorted by number of letters in the matched word, then by word alphabetically.
+## Examples
+Output is first sorted and grouped by number of letters in the matched word, then by word alphabetically.
 
 ```sh
 ❯ achoo \

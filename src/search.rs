@@ -46,6 +46,7 @@ impl SearchResult {
         self.phrases.push(Some(phrase));
     }
 
+    /// Returns the number of wildcards needed to complete the word.
     pub(crate) fn num_wildcards(&self) -> usize {
         self.phrases.iter().filter(|phrase| phrase.is_none()).count()
     }
