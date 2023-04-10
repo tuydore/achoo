@@ -296,6 +296,11 @@ mod tests {
         let expected = vec![
             vec![Some(0), Some(0), None, Some(1), Some(2)],
             vec![None, Some(1), Some(0), Some(0), Some(2)],
+            vec![None, None, None, None, None],
+            vec![Some(0), Some(0), None, None, None],
+            vec![None, None, Some(0), Some(0), None],
+            vec![Some(0), Some(0), None, Some(1), None],
+            vec![None, Some(1), Some(0), Some(0), None]
         ];
         assert_eq!(result, expected);
     }
