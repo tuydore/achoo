@@ -1,7 +1,12 @@
 [package]
+categories = ["command-line-utilities"]
 description = "Acronym Chooser."
 edition = "2021"
+keywords = ["acronym"]
+license-file = "LICENSE.md"
 name = "achoo"
+readme = "README.md"
+repository = "https://github.com/tuydore/achoo"
 version = "0.1.0"
 
 [dependencies]
